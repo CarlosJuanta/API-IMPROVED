@@ -32,7 +32,7 @@ const Form = ({ alumno, setAlumno }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-xs  p-6 bg-white rounded-lg shadow-md"
+      className="md:max-w-xs  p-6 bg-white rounded-lg shadow-md"
     >
       <h1 className="text-2xl font-bold text-center mb-6">Registro</h1>
       <input
