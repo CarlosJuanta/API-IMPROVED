@@ -13,13 +13,14 @@ rutas.post("/agregaralumno", (req, res) => {
       res.send("Registro Exitoso");
     });
   });
-});
+}); 
+
 
 //FUNCIÓN PARA LISTAR TODOS LO ALUMNOS REGISTRADOS
 rutas.get("/buscaralumno", (req, res) => {
   req.getConnection((err, conn) => {
     if (err) return res.send(err);
-    conn.query("SELECT * FROM  alumno", (rows) => {
+    conn.query("SELECT * FROM  alumno", (err, rows) => {
       res.json(rows);
     });
   });
@@ -27,17 +28,16 @@ rutas.get("/buscaralumno", (req, res) => {
 
 //FUNCION PARA BUSCAR ALUMNO POR ID ----------------
 
-rutas.get("/buscaralumno/:id", (req, res) => {
+rutas.get("/buscaralumno/:nombre", (req, res) => {
+  const nombre = req.params.nombre;
   req.getConnection((err, conn) => {
     if (err) return res.status(500).send({ error: err.message });
-    conn.query("SELECT * FROM alumno WHERE ?", [req.body], (err, rows) => {
+    conn.query("SELECT * FROM alumno WHERE nombre = ?", [nombre], (err, rows) => {
       if (err) return res.status(500).send({ error: err.message });
       if (rows.length === 0) {
-        return res
-          .status(404)
-          .send({ error: "No se encontro ningun alumno con el id" });
+        return res.status(404).send({ error: "No se encontró ningún alumno con ese nombre" });
       }
-      res.json(rows[0]);
+      res.json(rows);
     });
   });
 });
